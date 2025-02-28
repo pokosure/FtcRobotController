@@ -31,7 +31,7 @@ repositories {
 
 dependencies {
     implementation project(':FtcRobotController')
-    implementation ('dev.frozenmilk.dairy:Util:1.1.0')
+    implementation ('dev.frozenmilk.dairy:Util:1.0.2')
     implementation ('dev.frozenmilk.dairy:Core:1.0.1')
     implementation("dev.frozenmilk.mercurial:Mercurial:1.0.3")
 }
