@@ -115,12 +115,13 @@ public class SwerveModule extends Constants{
         steerMotor.setPower(0);
     }
 
-    private double[] posHistory = new double[filterSize];
-    private int velocityIndex = 0;
+    private double emaVelocity = 0;  // Stores the exponential moving average
+    private final double alpha = 0.2;  // Smoothing factor (adjust as needed)
+
 
     public double findSteerVelocity() {
         double currentPosition = getSteerPosition();
-        double currentTime = System.nanoTime()/Math.pow(10,9);
+        double currentTime = System.nanoTime()/1e-9;
         double deltaPos = currentPosition - prevPosition;
         if (deltaPos == 0) return 0;
         if (Math.abs(currentPosition-prevPosition) > Math.PI) { //Detect wraparound
@@ -131,22 +132,15 @@ public class SwerveModule extends Constants{
             }
         }
         double deltaTime = currentTime - prevTime;
-        if (deltaTime <= 0) return 0;
+        if (deltaTime <= 0) return emaVelocity;
 
         double velocity = deltaPos/deltaTime;
 
-        posHistory[velocityIndex] = velocity;
-        velocityIndex = (velocityIndex+1) % filterSize;
-
-        double filteredVelocity = 0;
-        for(double v: posHistory) {
-            filteredVelocity += v;
-        }
-        filteredVelocity /= filterSize;
+        emaVelocity = alpha * velocity + (1 - alpha) * emaVelocity;
 
         prevPosition = currentPosition;
         prevTime = currentTime;
 
-        return filteredVelocity;
+        return emaVelocity;
     }
 }
