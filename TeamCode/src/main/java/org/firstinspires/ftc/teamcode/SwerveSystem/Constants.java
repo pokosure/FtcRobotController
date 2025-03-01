@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.SwerveSystem;
 
 import com.arcrobotics.ftclib.geometry.Translation2d;
 import com.arcrobotics.ftclib.kinematics.wpilibkinematics.SwerveDriveKinematics;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import dev.frozenmilk.util.units.distance.Distance;
 import dev.frozenmilk.util.units.distance.DistanceUnits;
