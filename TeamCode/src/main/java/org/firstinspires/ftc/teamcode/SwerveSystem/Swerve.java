@@ -59,11 +59,14 @@ public class Swerve extends SubsystemBase {
 
     private IMU imu;
     private double currentAngle;
+    private double offsetAngle;
+    private double actualAngle;
     public void initIMU() {
         imu = hardwareMap.get(BHI260IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(imu.getRobotOrientation(AxesReference.INTRINSIC,AxesOrder.XZY, AngleUnit.DEGREES)));
         imu.initialize(parameters);
         currentAngle = 0.0;
+        offsetAngle = 0.0;
     }
     public Swerve() {
         new Thread(() -> {
@@ -79,7 +82,12 @@ public class Swerve extends SubsystemBase {
     public double getHeading() {
         Orientation orientation = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
         currentAngle = orientation.firstAngle;
-        return currentAngle;
+        if (currentAngle>offsetAngle) {actualAngle = currentAngle-offsetAngle;} else {actualAngle = (360-(offsetAngle-currentAngle))%360;}
+        return actualAngle;
+    }
+
+    public void zeroHeading() {
+        offsetAngle = offsetAngle+getHeading()%360;
     }
 
     public Rotation2d getRotation2d() {

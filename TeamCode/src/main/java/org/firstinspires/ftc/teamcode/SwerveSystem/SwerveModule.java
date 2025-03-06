@@ -140,6 +140,8 @@ public class SwerveModule extends Constants {
         prevPosition = currentPosition;
         prevTime = currentTime;
 
+        telemetry.addData("steervelo", emaVelocity);
+
         return emaVelocity;
     }
 }
