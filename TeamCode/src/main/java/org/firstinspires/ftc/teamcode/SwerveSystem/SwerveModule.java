@@ -28,7 +28,7 @@ public class SwerveModule extends Constants {
     private double steerEncoderVeloRad;
     double prevPosition = 0;
     double prevTime = 0;
-    int filterSize = 5;
+    //int filterSize = 5;
 
 
     double positionInRad;
@@ -83,7 +83,6 @@ public class SwerveModule extends Constants {
     }
 
     public double getTurningVelocity() {
-
         return findSteerVelocity();
     }
 
